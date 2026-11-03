@@ -787,7 +787,7 @@ function runIntro(){
 /* background music: starts quietly after the needle drops; the top-right button turns it on and off */
 // 음원 파일 자체에 볼륨(0.22)과 시작 페이드인을 미리 넣어 둠. 웹오디오를 거치지 않아 아이폰에서 속도가 빨라지는 문제가 없음
 const BGM = { el:null, on:false,
-  ensure(){ if(this.el) return; const a=new Audio('audio/bgm2.mp3'); a.loop=true; a.preload='auto'; a.setAttribute('playsinline',''); this.el=a; },
+  ensure(){ if(this.el) return; const a=new Audio('audio/bgm3.mp3'); a.loop=true; a.preload='auto'; a.setAttribute('playsinline',''); this.el=a; },
   start(){ this.ensure(); this.on=true; const p=this.el.play(); if(p&&p.catch) p.catch(()=>{ this.on=false; paintMus(); }); paintMus(); },
   stop(){ if(!this.el) return; this.on=false; this.el.pause(); paintMus(); }
 };
