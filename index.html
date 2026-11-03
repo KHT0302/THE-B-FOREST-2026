@@ -378,7 +378,7 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 <script>
 /* ============ DATA (여기만 고치면 앱 내용이 바뀌어요) ============ */
 const FEST = { date:'2026-11-06', dayLabel:'11.06 FRI', place:'봉산중학교 본관–후관 사이', insta:'https://www.instagram.com/the_b_forest/',
-  reserve:{ url:'https://bongsan-festival-reserve.kht920302.chatgpt.site', openDate:'2026-11-03', openTime:'17:00' } };
+  reserve:{ url:'https://bongsan-festival-reserve.kht920302.chatgpt.site', openDate:'2026-11-03', openTime:'17:00', closed:true } };
 const DECKS = {
   A:{ name:'숲의 파장', en:'FOREST WAVE', genre:'DEEP HOUSE', rpm:'45 RPM', where:'주차장 (농구골대 방향)', lp:'img/lp_a.png', g:'g-a' },
   B:{ name:'오후의 잔향', en:'AFTERNOON REVERB', genre:'CITY POP', rpm:'33⅓ RPM', where:'급식실 앞 공터', lp:'img/lp_b.png', g:'g-b' }
@@ -400,13 +400,13 @@ const BOOTHS = [
   { id:'B3', deck:'B', cat:'FOOD', name:'암서준의 라면가게', op:'2학년 2반', menu:['컵라면'], posters:['b3_cover'] },
   { id:'B4', deck:'B', cat:'FOOD', name:'Made in 7반', op:'2학년 7반', menu:['콜팝'], posters:['b4_cover'] },
   { id:'B5', deck:'B', cat:'MAKE', name:'접기접기 먼작귀', op:'THE B FOREST', what:'치이카와 종이접기 (20분)', free:true, where:'1층 후관 앞 공터',
-    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 35팀 · 현장 접수 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    reserve:{ text:'사전 예약 마감 · 선착순 35팀 · 현장 접수 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['예약 35팀 외에 현장 접수도 받습니다','캡슐을 뽑아 나온 캐릭터를 종이접기로 완성합니다','10분 안에 완성: 키링 또는 3D 스티커 + 츄파춥스 + 내가 만든 종이접기','20분 안에 완성: 츄파춥스 + 내가 만든 종이접기','캐릭터와 상품은 뽑기로 정해집니다'], posters:['b5_poster','b5_rules'] },
   { id:'B6', deck:'B', cat:'MAKE', name:'기념일은 아니지만 달콤하게', op:'누미르케이크', what:'도시락 케이크 만들기', price:'5,000원', where:'1층 후관 앞 공터',
-    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 28팀 · 1팀 1~2명 · 예약만 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    reserve:{ text:'사전 예약 마감 · 선착순 28팀 · 1팀 1~2명 · 예약만 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['현장 접수 없이 예약한 사람만 참여할 수 있습니다','예약 후 30분 안에 입금하지 않으면 자동 취소됩니다','원하는 디자인을 미리 찾아오면 더 예쁜 케이크를 만들 수 있습니다'], posters:['b6_cover','b6_poster','b6_gallery'] },
   { id:'B7', deck:'B', cat:'MAKE', name:'향수는 향기로 남는 이순간', op:'한아하다', what:'나만의 향수 만들기 · 동명동 향수공방', price:'예약 2,000원 · 현장 12,000원',
-    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 30명 (1인 1개)', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    reserve:{ text:'사전 예약 마감 · 선착순 30명 (1인 1개)', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['예약 30명은 2,000원, 그 외 현장 접수는 12,000원입니다','예약 후 30분 안에 입금하지 않으면 자동 취소됩니다','내 취향의 향을 직접 골라 만듭니다'], posters:['b7_poster','b7_photos'] },
   { id:'B8', deck:'B', cat:'PLAY', name:'PS5 & NINTENDO', op:'THE B FOREST', what:'FC26 · 마리오카트', free:true, posters:[] },
   { id:'B9', deck:'B', cat:'PLAY', name:'건축학개론', op:'THE B FOREST', what:'대왕젠가', free:true, posters:[] },
@@ -519,7 +519,7 @@ const ABOUT = {
     ['DECK B','오후의 잔향','천천히 오래 남는 오후의 소리. 만들기 체험과 쉼이 있는 급식실 앞 구역입니다.','33⅓ RPM','g-b']
   ]
 };
-function rsvCard(){ const R=FEST.reserve; if(!R||!R.url) return ''; const n=kstNow(); if(n.date>FEST.date) return '';
+function rsvCard(){ const R=FEST.reserve; if(!R||!R.url||R.closed) return ''; const n=kstNow(); if(n.date>FEST.date) return '';
   const open = n.date>R.openDate || (n.date===R.openDate && n.min>=toMin(R.openTime));
   const st = open ? '<em>예약 진행 중</em> · 정원이 차면 마감됩니다' : `<em>${R.openDate===n.date?'오늘':'11월 3일 (화)'} ${R.openTime} 오픈</em> · 선착순`;
   const L=[['B6','케이크','5,000원'],['B7','향수','2,000원'],['B5','종이접기','무료']].map(([id,k,w])=>{ const b=BOOTHS.find(x=>x.id===id); const m=b&&b.reserve.text.match(/(\d+)(팀|명)/); return `<li><b>${k}</b>${m?m[1]+m[2]:''} · ${w}</li>`; }).join('');
@@ -636,8 +636,8 @@ V.info = () => { const rsv=BOOTHS.filter(b=>b.reserve); return `
   <div class="gut">${rsvCard()}
     <ul class="menu" style="margin-top:24px"><li><a href="#about"><span class="ico"><svg class="trees" style="width:26px;height:18px"><use href="#trees"/></svg></span><span><b>THE B FOREST 이야기</b><span>이름의 뜻과 축제의 구성</span></span>${chev}</a></li></ul>
     <h2 class="h-sec">사전 예약</h2>
-    <ul class="rsv">${rsv.map(b=>`<li><button data-open="${b.id}">${badge(b)}<span class="tx" style="min-width:0"><b>${esc(b.name)}</b><span>${esc(b.reserve.text)}${b.price?' · '+esc(b.price):''}</span></span><span class="pill ${b.reserve.url?'fill':''}">${b.reserve.url?'예약하기':'링크 준비 중'}</span></button></li>`).join('')}</ul>
-    <p class="small">유료 부스는 예약 후 30분 안에 입금하지 않으면 자동 취소됩니다.</p>
+    <ul class="rsv">${rsv.map(b=>`<li><button data-open="${b.id}">${badge(b)}<span class="tx" style="min-width:0"><b>${esc(b.name)}</b><span>${esc(b.reserve.text)}${b.price?' · '+esc(b.price):''}</span></span><span class="pill ${b.reserve.url&&!FEST.reserve.closed?'fill':''}">${FEST.reserve.closed?'예약 마감':(b.reserve.url?'예약하기':'링크 준비 중')}</span></button></li>`).join('')}</ul>
+    ${FEST.reserve.closed?'':'<p class="small">유료 부스는 예약 후 30분 안에 입금하지 않으면 자동 취소됩니다.</p>'}
     <h2 class="h-sec">기본 정보</h2>
     <dl class="notes c-FOOD" style="margin-top:0">
       <div><dt>날짜</dt><dd>2026년 11월 6일 (금)</dd></div>
@@ -672,7 +672,7 @@ function boothHTML(b){
       <div><h2>${esc(b.name)}</h2><div class="op">${esc(b.op||'운영 정보 준비 중')}</div>${pills(b)?`<div class="chips">${pills(b)}</div>`:''}</div>
       <dl class="notes">${rows.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('')}</dl>
       <div class="acts">
-        ${b.reserve?(b.reserve.url?`<a class="btn dark" href="${esc(b.reserve.url)}" target="_blank" rel="noopener">예약하기${chev}</a>`:`<span class="btn dark" aria-disabled="true">예약 링크 준비 중</span>`):''}
+        ${b.reserve?(FEST.reserve.closed?`<span class="btn dark" aria-disabled="true">사전 예약 마감</span>`:b.reserve.url?`<a class="btn dark" href="${esc(b.reserve.url)}" target="_blank" rel="noopener">예약하기${chev}</a>`:`<span class="btn dark" aria-disabled="true">예약 링크 준비 중</span>`):''}
         <a class="btn" href="#map-${b.id.toLowerCase()}">지도에서 위치 보기${chev}</a>
       </div>
       <div><h2 class="h-sec">포스터</h2>${P.length?`<div class="sleeves">${P.map((p,k)=>`<button data-lb="${k}"><img src="${img(p)}" alt="${esc(b.name)} 포스터 ${k+1}" loading="lazy"></button>`).join('')}</div>`:`<div class="nosleeve">${trees()}포스터<br>곧 공개됩니다</div>`}</div>
@@ -787,7 +787,7 @@ function runIntro(){
 /* background music: starts quietly after the needle drops; the top-right button turns it on and off */
 // 음원 파일 자체에 볼륨(0.22)과 시작 페이드인을 미리 넣어 둠. 웹오디오를 거치지 않아 아이폰에서 속도가 빨라지는 문제가 없음
 const BGM = { el:null, on:false,
-  ensure(){ if(this.el) return; const a=new Audio('audio/bgm3.mp3'); a.loop=true; a.preload='auto'; a.setAttribute('playsinline',''); this.el=a; },
+  ensure(){ if(this.el) return; const a=new Audio('audio/bgm4.mp3'); a.loop=true; a.preload='auto'; a.setAttribute('playsinline',''); this.el=a; },
   start(){ this.ensure(); this.on=true; const p=this.el.play(); if(p&&p.catch) p.catch(()=>{ this.on=false; paintMus(); }); paintMus(); },
   stop(){ if(!this.el) return; this.on=false; this.el.pause(); paintMus(); }
 };
