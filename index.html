@@ -399,8 +399,8 @@ const BOOTHS = [
     reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 28팀 · 1팀 1~2명', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['예약 후 30분 안에 입금하지 않으면 자동 취소돼요','원하는 디자인을 미리 찾아오면 더 예쁜 케이크를 만들 수 있어요'], posters:['b6_poster','b6_gallery'] },
   { id:'B7', deck:'B', cat:'MAKE', name:'향수는 향기로 남는 이순간', op:'한아하다', what:'나만의 향수 만들기 · 동명동 향수공방', price:'예약 2,000원 · 현장 12,000원',
-    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 30팀', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
-    notes:['예약 30팀은 2,000원, 그 외 현장 접수는 12,000원이에요','예약 후 30분 안에 입금하지 않으면 자동 취소돼요','내 취향의 향을 직접 골라 만들어요'], posters:['b7_poster','b7_photos'] },
+    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 30명 (1인 1개)', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    notes:['예약 30명은 2,000원, 그 외 현장 접수는 12,000원이에요','예약 후 30분 안에 입금하지 않으면 자동 취소돼요','내 취향의 향을 직접 골라 만들어요'], posters:['b7_poster','b7_photos'] },
   { id:'B8', deck:'B', cat:'PLAY', name:'PS5 & NINTENDO', op:'THE B FOREST', what:'FC26 · 마리오카트', free:true, posters:[] },
   { id:'B9', deck:'B', cat:'PLAY', name:'건축학개론', op:'THE B FOREST', what:'대왕젠가', free:true, posters:[] },
   { id:'B10', deck:'B', cat:'MAKE', name:'우리사이에 편지가 있다', op:'THE B FOREST', what:'엽서 쓰기', free:true,
@@ -515,8 +515,8 @@ const ABOUT = {
 function rsvCard(){ const R=FEST.reserve; if(!R||!R.url) return ''; const n=kstNow(); if(n.date>FEST.date) return '';
   const open = n.date>R.openDate || (n.date===R.openDate && n.min>=toMin(R.openTime));
   const st = open ? '<em>예약 진행 중</em> · 정원이 차면 마감됩니다' : `<em>${R.openDate===n.date?'오늘':'11월 3일 (화)'} ${R.openTime} 오픈</em> · 선착순`;
-  const L=[['B6','케이크','5,000원'],['B7','향수','2,000원'],['B5','종이접기','무료']].map(([id,k,w])=>{ const b=BOOTHS.find(x=>x.id===id); const m=b&&b.reserve.text.match(/(\d+)팀/); return `<li><b>${k}</b>${m?m[1]+'팀':''} · ${w}</li>`; }).join('');
-  return `<a class="rsvcard band g-b" href="${R.url}" target="_blank" rel="noopener"><div class="tag">${open?'<i></i>':''}PRE-SAVE · 선착순 예약</div><b class="t">케이크 · 향수 · 종이접기 예약</b><div class="st">${st}</div><ul>${L}</ul><div class="nt">향수는 예약 시 2,000원, 예약 외 현장 접수는 12,000원입니다</div><div class="go2">예약사이트 바로가기 ↗</div></a>`; }
+  const L=[['B6','케이크','5,000원'],['B7','향수','2,000원'],['B5','종이접기','무료']].map(([id,k,w])=>{ const b=BOOTHS.find(x=>x.id===id); const m=b&&b.reserve.text.match(/(\d+)(팀|명)/); return `<li><b>${k}</b>${m?m[1]+m[2]:''} · ${w}</li>`; }).join('');
+  return `<a class="rsvcard band g-b" href="${R.url}" target="_blank" rel="noopener"><div class="tag">${open?'<i></i>':''}PRE-SAVE · 선착순 예약</div><b class="t">케이크 · 향수 · 종이접기 예약</b><div class="st">${st}</div><ul>${L}</ul><div class="nt">향수는 1인 1개 · 예약 30명 2,000원, 그 외 현장 접수는 12,000원입니다</div><div class="go2">예약사이트 바로가기 ↗</div></a>`; }
 V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').length; return `
   <section class="hero band g-mix gut">
     <h1>THE B<br>FOREST</h1>
