@@ -752,7 +752,7 @@ function runIntro(){
   const showLP=()=>{ clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); intro.classList.remove('s1'); intro.classList.add('s2'); ready=true; };
   const t3=setTimeout(showLP, reduce?400:2700);
   const play=()=>{ if(!ready){ showLP(); return; } if(started) return; started=true; ss.set('tbf-intro','1');
-    Sound.init(); Sound.crackle(.9,.35); intro.classList.add('play'); BGM.start(reduce?0.3:2.6);
+    Sound.init(); Sound.crackle(.9,.35); intro.classList.add('play'); BGM.start(); setTimeout(()=>{ try{ Sound.ctx&&Sound.ctx.suspend(); }catch(e){} },5500);
     setTimeout(()=>{ Sound.thump(.8); Sound.crackle(3.4,.6); Sound.hum(3.2); rec.classList.add('spin'); }, reduce?0:950);
     setTimeout(()=>{ intro.classList.add('out'); setTimeout(()=>intro.hidden=true, 1700); }, reduce?300:2000);
   };
@@ -760,17 +760,11 @@ function runIntro(){
 }
 
 /* background music: starts quietly after the needle drops; the top-right button turns it on and off */
-const BGM_VOL = 0.22;   // 0 ~ 1, 잔잔하게
-const BGM = { el:null, gain:null, on:false,
-  ensure(){ if(this.el) return; Sound.init(); const a=new Audio('audio/bgm.mp3'); a.loop=true; a.preload='auto'; a.setAttribute('playsinline',''); this.el=a;
-    if (Sound.ctx){ try{ const src=Sound.ctx.createMediaElementSource(a); this.gain=Sound.ctx.createGain(); this.gain.gain.value=0; src.connect(this.gain).connect(Sound.ctx.destination); }catch(e){ this.gain=null; } }
-    if (!this.gain) a.volume=BGM_VOL; },
-  start(delay){ this.ensure(); Sound.init(); this.on=true; const p=this.el.play(); if(p&&p.catch) p.catch(()=>{ this.on=false; paintMus(); });
-    if (this.gain){ const c=Sound.ctx, t=c.currentTime; this.gain.gain.cancelScheduledValues(t); this.gain.gain.setValueAtTime(0,t); this.gain.gain.setValueAtTime(0,t+delay); this.gain.gain.linearRampToValueAtTime(BGM_VOL,t+delay+4); }
-    paintMus(); },
-  stop(){ if(!this.el) return; this.on=false;
-    if (this.gain){ const c=Sound.ctx, t=c.currentTime; this.gain.gain.cancelScheduledValues(t); this.gain.gain.setValueAtTime(this.gain.gain.value,t); this.gain.gain.linearRampToValueAtTime(0,t+.6); setTimeout(()=>{ if(!this.on) this.el.pause(); },650); }
-    else this.el.pause(); paintMus(); }
+// 음원 파일 자체에 볼륨(0.22)과 시작 페이드인을 미리 넣어 둠. 웹오디오를 거치지 않아 아이폰에서 속도가 빨라지는 문제가 없음
+const BGM = { el:null, on:false,
+  ensure(){ if(this.el) return; const a=new Audio('audio/bgm2.mp3'); a.loop=true; a.preload='auto'; a.setAttribute('playsinline',''); this.el=a; },
+  start(){ this.ensure(); this.on=true; const p=this.el.play(); if(p&&p.catch) p.catch(()=>{ this.on=false; paintMus(); }); paintMus(); },
+  stop(){ if(!this.el) return; this.on=false; this.el.pause(); paintMus(); }
 };
 function musBtn(){ return `<button class="mus r" id="musBtn" aria-pressed="${BGM.on}" aria-label="배경 음악 ${BGM.on?'끄기':'켜기'}"><i class="eq"><b></b><b></b><b></b></i>${BGM.on?'음악 ON':'음악 OFF'}</button>`; }
 function paintMus(){ const b=$('#musBtn'); if(!b) return; b.outerHTML=musBtn(); $('#musBtn').addEventListener('click',()=>{ BGM.on ? BGM.stop() : BGM.start(0); }); }
