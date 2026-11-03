@@ -156,6 +156,7 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 .sheet.ready .info > *:nth-child(2){transition-delay:.06s}.sheet.ready .info > *:nth-child(3){transition-delay:.12s}.sheet.ready .info > *:nth-child(n+4){transition-delay:.18s}
 .info .meta{font:700 13px/1.4 var(--f-disp);color:var(--c)}
 .info h2{margin:8px 0 0;font:900 30px/1.15 var(--f-disp);letter-spacing:-.04em;text-wrap:balance}
+.info h2.h-sec{margin:0;font:900 19px/1.3 var(--f-disp);letter-spacing:-.02em}
 .info .op{font:500 15px/1.4 var(--f-disp);color:var(--ink-soft);margin-top:8px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .notes{margin:24px 0 0;border-top:1.5px solid var(--ink)}
@@ -360,15 +361,15 @@ const BOOTHS = [
   { id:'A3', deck:'A', cat:'FOOD', name:'뻥스크림대학', op:'2학년 6반', menu:['뻥스크림'], posters:['a3_cover'] },
   { id:'A4', deck:'A', cat:'FOOD', name:'영이네 호떡집', op:'3학년 4반', menu:['호떡 (기본 · 뿌링클 · 초코)'], posters:['a4_cover'] },
   { id:'A5', deck:'A', cat:'PLAY', name:'운명의 장난', op:'남자풋살부', what:'인간룰렛', posters:[] },
-  { id:'A6', deck:'A', cat:'PLAY', name:'찰나의 조준', op:'The B Forest', what:'레이저 사격', free:true, posters:[] },
-  { id:'A7', deck:'A', cat:'PLAY', name:'교무실에 총성을 울리면', op:'The B Forest', what:'너프건 맞추기', free:true, posters:[] },
-  { id:'A8', deck:'A', cat:'PLAY', name:'7.77초 맞추기', op:'The B Forest', what:'타이머 게임', free:true, posters:[] },
-  { id:'A9', deck:'A', cat:'MAKE', name:'봉산필름관', op:'The B Forest', what:'인생네컷', price:'2,000원 · 같이 찍은 인원수만큼 출력', hours:'09:00 – 16:00', where:'1층 중앙현관 앞', notes:['프레임 2종: 기본 화이트 / 선생님과 함께 찍는 프레임','다시 오지 않을 오늘, 지금의 우리를 한 장에'], posters:['a9_cover','a9_poster'] },
+  { id:'A6', deck:'A', cat:'PLAY', name:'찰나의 조준', op:'THE B FOREST', what:'레이저 사격', free:true, posters:[] },
+  { id:'A7', deck:'A', cat:'PLAY', name:'교무실에 총성을 울리면', op:'THE B FOREST', what:'너프건 맞추기', free:true, posters:[] },
+  { id:'A8', deck:'A', cat:'PLAY', name:'7.77초 맞추기', op:'THE B FOREST', what:'타이머 게임', free:true, posters:[] },
+  { id:'A9', deck:'A', cat:'MAKE', name:'봉산필름관', op:'THE B FOREST', what:'인생네컷', price:'2,000원 · 같이 찍은 인원수만큼 출력', hours:'09:00 – 16:00', where:'1층 중앙현관 앞', notes:['프레임 2종: 기본 화이트 / 선생님과 함께 찍는 프레임','다시 오지 않을 오늘, 지금의 우리를 한 장에'], posters:['a9_cover','a9_poster'] },
   { id:'B1', deck:'B', cat:'PLAY', name:'마약 예방 부스', op:'', what:'예방 캠페인', posters:[] },
   { id:'B2', deck:'B', cat:'FOOD', name:'슈의 분식집', op:'1학년 1반', menu:['떡볶이'], posters:['b2_cover'] },
   { id:'B3', deck:'B', cat:'FOOD', name:'암서준의 라면가게', op:'2학년 2반', menu:['컵라면'], posters:['b3_cover'] },
   { id:'B4', deck:'B', cat:'FOOD', name:'Made in 7반', op:'2학년 7반', menu:['콜팝'], posters:['b4_cover'] },
-  { id:'B5', deck:'B', cat:'MAKE', name:'접기접기 먼작귀', op:'The B Forest', what:'치이카와 종이접기 (20분)', free:true,
+  { id:'B5', deck:'B', cat:'MAKE', name:'접기접기 먼작귀', op:'THE B FOREST', what:'치이카와 종이접기 (20분)', free:true,
     reserve:{ text:'사전 예약 40명 + 현장 접수', url:'' },
     notes:['캡슐을 뽑아 나온 캐릭터를 종이접기로 완성해요','10분 안에 완성: 키링 또는 3D 스티커 + 츄파춥스 + 내가 만든 종이접기','20분 안에 완성: 츄파춥스 + 내가 만든 종이접기','캐릭터와 상품은 뽑기로 정해져요'], posters:['b5_poster','b5_rules'] },
   { id:'B6', deck:'B', cat:'MAKE', name:'기념일은 아니지만 달콤하게', op:'누미르케이크', what:'도시락 케이크 만들기', price:'5,000원',
@@ -377,9 +378,9 @@ const BOOTHS = [
   { id:'B7', deck:'B', cat:'MAKE', name:'향수는 향기로 남는 이순간', op:'한아하다', what:'나만의 향수 만들기 · 동명동 향수공방', price:'예약 2,000원 · 현장 12,000원',
     reserve:{ text:'선착순 30명', url:'' },
     notes:['예약 후 30분 안에 입금하지 않으면 자동 취소돼요','내 취향의 향을 직접 골라 만들어요'], posters:['b7_poster','b7_photos'] },
-  { id:'B8', deck:'B', cat:'PLAY', name:'PS5 & NINTENDO', op:'The B Forest', what:'FC26 · 마리오카트', free:true, posters:[] },
-  { id:'B9', deck:'B', cat:'PLAY', name:'건축학개론', op:'The B Forest', what:'대왕젠가', free:true, posters:[] },
-  { id:'B10', deck:'B', cat:'MAKE', name:'우리사이에 편지가 있다', op:'The B Forest', what:'엽서 쓰기', free:true,
+  { id:'B8', deck:'B', cat:'PLAY', name:'PS5 & NINTENDO', op:'THE B FOREST', what:'FC26 · 마리오카트', free:true, posters:[] },
+  { id:'B9', deck:'B', cat:'PLAY', name:'건축학개론', op:'THE B FOREST', what:'대왕젠가', free:true, posters:[] },
+  { id:'B10', deck:'B', cat:'MAKE', name:'우리사이에 편지가 있다', op:'THE B FOREST', what:'엽서 쓰기', free:true,
     notes:['친구, 선배, 후배, 선생님께 이름을 적어 마음을 전해요','축제가 끝난 후 직접 배달해 드려요','익명이나 장난, 비방의 글은 현장에서 조치돼요'], posters:['b10_cover'] },
   { id:'GZ', deck:'B', cat:'GREEN', name:'GREEN ZONE', op:'분리수거 구역', what:'분리수거', free:true,
     notes:['음식물 쓰레기는 버리지 말아주세요','플라스틱컵 · 종이컵 · 종이접시 · 막대꼬지 · 일반쓰레기'], posters:[] }
@@ -389,7 +390,7 @@ const SET = [
   { vol:1, s:'12:00', e:'12:30', title:'MACGWI', sub:'DJ SET' },
   { vol:2, s:'12:30', e:'13:00', title:'멍때리기 대회', sub:'가장 오래 멍 때린 사람이 우승' },
   { vol:3, s:'13:00', e:'13:30', title:'MACGWI', sub:'DJ SET' },
-  { vol:4, s:'13:30', e:'14:40', title:'BUSKING', sub:'버스킹', acts:[['13:30','권정원'],['13:40','김용준'],['13:50','변다예'],['14:00','오주호'],['14:10','문시우'],['14:20','T.O.D'],['14:30','임이랑 T']] },
+  { vol:4, s:'13:30', e:'14:40', title:'BUSKING', sub:'버스킹', acts:[['13:30','권정원','3학년 5반'],['13:40','김용준','3학년 6반'],['13:50','변다예','3학년 7반'],['14:00','오주호','3학년 4반'],['14:10','문시우','3학년 4반'],['14:20','T.O.D',''],['14:30','임이랑 T','체육']] },
   { vol:5, s:'14:40', e:'15:20', title:'B FOREST FM 11.06', sub:'떼창 라디오 · 사연 신청곡' }
 ];
 const FLYERS = []; // 예: ['artist_macgwi','artist_tod']
@@ -475,7 +476,7 @@ function nowLine(){
 const V={}, TITLE={ home:'', booths:'부스', show:'공연', map:'지도', info:'안내', about:'THE B FOREST' };
 // THE B FOREST 소개 글. 여기 문장만 바꾸면 소개 화면이 바뀌어요.
 const ABOUT = {
-  lead:['본관과 후관 사이,','나무 세 그루 아래 열리는 하루짜리 숲.'],
+  lead:['본관과 후관 사이,','나무 세 그루 아래 음악이 흐르는 숲.'],
   words:[
     ['THE B','봉산의 B, 그리고 앨범의 B면. 수업이 흐르는 A면 말고, 평소엔 듣지 못했던 학교의 다른 면을 트는 날이에요.'],
     ['FOREST','화단에 선 나무 세 그루가 우리의 로고예요. 그 나무 아래가 오늘의 무대이자 쉼터예요.'],
@@ -528,7 +529,7 @@ function applyFilter(){
 }
 
 V.show = () => { const st=stageState(); const n=kstNow();
-  const rows=[]; SET.forEach(s=>{ if(s.acts) s.acts.forEach((x,i)=>rows.push({ s:x[0], e:(s.acts[i+1]||[s.e])[0], title:x[1], sub:'BUSKING · 버스킹' })); else rows.push(s); });
+  const rows=[]; SET.forEach(s=>{ if(s.acts) s.acts.forEach((x,i)=>rows.push({ s:x[0], e:(s.acts[i+1]||[s.e])[0], title:x[1], sub:(x[2]?x[2]+' · ':'')+'버스킹' })); else rows.push(s); });
   const today = n.date===FEST.date;
   const row = r => { const a=toMin(r.s), b=toMin(r.e); const live=today&&n.min>=a&&n.min<b; const done=(today&&n.min>=b)||n.date>FEST.date;
     return `<li class="${done?'done':''}"><div class="time">${r.s}<small>~ ${r.e}</small></div><div style="min-width:0"><h3>${esc(r.title)}${live?'<span class="onair">ON AIR</span>':''}</h3>${r.sub?`<div class="sub">${esc(r.sub)}</div>`:''}${live?`<div class="prog"><i style="width:${Math.round((n.min-a)/(b-a)*100)}%"></i></div>`:''}</div></li>`; };
@@ -619,6 +620,7 @@ V.info = () => { const rsv=BOOTHS.filter(b=>b.reserve); return `
 const sheet=$('#sheet'); let current=null, spinRAF=0;
 function boothHTML(b){
   const rows=[];
+  if (b.op) rows.push(['운영', esc(b.op)]);
   if (b.menu) rows.push(['메뉴', `<ul>${b.menu.map(m=>`<li>${esc(m)}</li>`).join('')}</ul>`]);
   else if (b.what) rows.push(['내용', esc(b.what)]);
   rows.push(['가격', b.free?'무료':(b.price?esc(b.price):'현장에서 확인해 주세요')]);
