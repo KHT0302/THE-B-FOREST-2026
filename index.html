@@ -247,6 +247,14 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 .rsv .tx b{display:block;font:700 15px/1.3 var(--f-disp)}
 .rsv .tx span{display:block;font:500 13px/1.45 var(--f-disp);color:var(--ink-soft);margin-top:2px}
 .small{font:500 13px/1.6 var(--f-disp);color:var(--ink-soft);margin:12px 0 0}
+.about{margin:0;border-top:1.5px solid var(--ink)}
+.about div{padding-block:16px;border-bottom:1px solid var(--rule)}
+.about dt{font:900 24px/1.1 var(--f-disp);letter-spacing:-.03em}
+.about dd{margin:8px 0 0;font:500 15px/1.7 var(--f-disp)}
+.setup{display:grid;gap:8px}
+.setup > div{border-radius:16px;padding:20px 16px}
+.setup b{display:block;font:900 24px/1.2 var(--f-disp);letter-spacing:-.03em;margin-top:8px}
+.setup p{margin:8px 0 0;font:500 14.5px/1.65 var(--f-disp)}
 
 /* toast */
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 16px);transform:translate(-50%,20px);opacity:0;z-index:70;background:var(--ink);color:var(--paper);border-radius:999px;padding:12px 18px;font:700 13.5px/1 var(--f-disp);transition:opacity .25s ease,transform .25s ease;pointer-events:none;white-space:nowrap}
@@ -255,17 +263,21 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 /* INTRO: whole record on the platter, needle comes in, then a slow push-in and fade into the app */
 .intro{position:fixed;inset:0;z-index:80;background:url(img/grain_soft.png),var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;overflow:hidden;cursor:pointer;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);transition:opacity 1.6s ease}
 .intro.out{opacity:0;pointer-events:none}
-.intro .brand{display:flex;flex-direction:column;align-items:center;gap:10px;font:700 11px/1 var(--f-mono);letter-spacing:.2em;transition:opacity .5s ease}
-.intro .brand svg.trees{width:34px;height:24px}
+.intro .logo{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;transform:scale(.97);transition:opacity .9s ease,transform 1.6s ease;pointer-events:none}
+.intro .logo svg.trees{width:96px;height:66px;stroke-width:2.6}
+.intro .logo b{font:900 34px/1 var(--f-disp);letter-spacing:-.03em}
+.intro .logo span{font:700 11px/1 var(--f-mono);letter-spacing:.24em}
+.intro.s1 .logo{opacity:1;transform:none}
+.intro .deck,.intro .ihint{opacity:0;transition:opacity 1s ease,transform 2.2s cubic-bezier(.5,0,.2,1)}
+.intro.s2 .deck,.intro.s2 .ihint{opacity:1}
 .deck{position:relative;width:min(72vw,320px);margin-right:10vw;transition:transform 2.2s cubic-bezier(.5,0,.2,1)}
 .intro.out .deck{transform:scale(1.35)}
-.intro.play .brand{opacity:0}
 .deck .rec{width:100%;filter:drop-shadow(0 22px 26px rgba(30,10,0,.35))}
 .arm{position:absolute;width:30%;right:-17%;top:-6%;transform-origin:72% 9%;transform:rotate(-6deg);transition:transform 1s cubic-bezier(.5,0,.2,1);filter:drop-shadow(4px 10px 8px rgba(0,0,0,.28));pointer-events:none}
 .intro.play .arm{transform:rotate(17deg)}
 .ihint{display:flex;align-items:center;gap:10px;font:700 14px/1 var(--f-disp);background:var(--ink);color:var(--paper);border-radius:999px;padding:14px 20px;transition:opacity .4s ease}
 .ihint i{width:8px;height:8px;border-radius:50%;background:var(--dot);animation:blink 1.2s steps(2) infinite}
-.intro.play .ihint{opacity:0}
+.intro.s2.play .ihint{opacity:0}
 
 @media (prefers-reduced-motion:reduce){
   .spin,.ihint i,.now .k i,.pan .mk.focus .pulse,.view{animation:none}
@@ -287,7 +299,7 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 </svg>
 
 <div class="intro" id="intro" role="button" tabindex="0" aria-label="바늘을 내려 시작하기" hidden>
-  <div class="brand"><svg class="trees"><use href="#trees"/></svg>THE B FOREST FESTIVAL</div>
+  <div class="logo"><svg class="trees"><use href="#trees"/></svg><b>THE B FOREST</b><span>FESTIVAL 2026</span></div>
   <div class="deck">
     <div class="rec" id="introRec">
       <img src="img/lp_mix.png" alt="">
@@ -460,7 +472,21 @@ function nowLine(){
 }
 
 /* views */
-const V={}, TITLE={ home:'', booths:'부스', show:'공연', map:'지도', info:'안내' };
+const V={}, TITLE={ home:'', booths:'부스', show:'공연', map:'지도', info:'안내', about:'THE B FOREST' };
+// THE B FOREST 소개 글. 여기 문장만 바꾸면 소개 화면이 바뀌어요.
+const ABOUT = {
+  lead:['본관과 후관 사이,','나무 세 그루 아래 열리는 하루짜리 숲.'],
+  words:[
+    ['THE B','봉산의 B, 그리고 앨범의 B면. 수업이 흐르는 A면 말고, 평소엔 듣지 못했던 학교의 다른 면을 트는 날이에요.'],
+    ['FOREST','화단에 선 나무 세 그루가 우리의 로고예요. 그 나무 아래가 오늘의 무대이자 쉼터예요.'],
+    ['FESTIVAL','먹고, 놀고, 만들고, 듣는 하루. 각자의 방식으로 놀고 쉬는 공간이에요.']
+  ],
+  setup:[
+    ['DECK A','숲의 파장','나뭇잎 사이로 퍼지는 빠른 박자. 먹거리와 게임이 모인 주차장 쪽 구역이에요.','45 RPM','g-a'],
+    ['MAIN MIXER','메인 무대','두 덱의 소리가 섞이는 곳. 무대단 없이, 둘러앉으면 그곳이 무대예요.','1층 중앙현관','g-mix'],
+    ['DECK B','오후의 잔향','천천히 오래 남는 오후의 소리. 만들기 체험과 쉼이 있는 급식실 앞 구역이에요.','33⅓ RPM','g-b']
+  ]
+};
 V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').length; return `
   <section class="hero band g-mix gut">
     <h1>THE B<br>FOREST</h1>
@@ -471,6 +497,7 @@ V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').leng
     <a class="now" href="#show">${recordHTML('img/lp_mix.png','spin')}<div><div class="k">${n.live?'<i></i>':''}${esc(n.k)}</div><div class="t">${esc(n.t)}</div>${n.live?`<div class="bar"><i style="width:${Math.round(n.pct*100)}%"></i></div>`:''}</div>${chev}</a>
     <h2 class="h-sec">무엇을 찾나요?</h2>
     <ul class="menu">
+      <li><a href="#about"><span class="ico"><svg class="trees" style="width:26px;height:18px"><use href="#trees"/></svg></span><span><b>THE B FOREST 이야기</b><span>이름의 뜻과 축제의 구성</span></span>${chev}</a></li>
       <li><a href="#booths"><span class="ico">${ic('booth')}</span><span><b>부스 찾기</b><span>먹거리 · 게임 · 만들기 ${cnt}곳</span></span>${chev}</a></li>
       <li><a href="#show"><span class="ico">${ic('show')}</span><span><b>공연 시간표</b><span>메인 무대 · 1층 중앙현관</span></span>${chev}</a></li>
       <li><a href="#map"><span class="ico">${ic('map')}</span><span><b>지도 보기</b><span>부스 위치와 번호</span></span>${chev}</a></li>
@@ -500,13 +527,14 @@ function applyFilter(){
   document.querySelectorAll('section[id^="side-"]').forEach(sec=>{ let n=0; sec.querySelectorAll('.tl li').forEach(li=>{ const ok=filter==='ALL'||li.dataset.cat===filter; li.hidden=!ok; if(ok)n++; }); sec.querySelector('.empty').hidden=n>0; });
 }
 
-V.show = () => { const st=stageState();
-  const row = s => { const b=toMin(s.e); const live=st.mode==='live'&&st.set===s; const done=(st.mode==='live'&&st.min>=b)||(st.mode==='after'&&st.min!==undefined);
-    const acts = s.acts ? `<ul class="busk">${s.acts.map((x,i)=>{ const nx=s.acts[i+1]; const now=live&&st.min>=toMin(x[0])&&(!nx||st.min<toMin(nx[0])); return `<li class="${now?'now':''}"><span>${x[0]}</span>${esc(x[1])}</li>`; }).join('')}</ul>` : '';
-    return `<li class="${done?'done':''}"><div class="time">${s.s}<small>~ ${s.e}</small></div><div style="min-width:0"><h3>${esc(s.title)}${live?'<span class="onair">ON AIR</span>':''}</h3>${s.sub?`<div class="sub">${esc(s.sub)}</div>`:''}${acts}${live?`<div class="prog"><i style="width:${Math.round(st.pct*100)}%"></i></div>`:''}</div></li>`; };
+V.show = () => { const st=stageState(); const n=kstNow();
+  const rows=[]; SET.forEach(s=>{ if(s.acts) s.acts.forEach((x,i)=>rows.push({ s:x[0], e:(s.acts[i+1]||[s.e])[0], title:x[1], sub:'BUSKING · 버스킹' })); else rows.push(s); });
+  const today = n.date===FEST.date;
+  const row = r => { const a=toMin(r.s), b=toMin(r.e); const live=today&&n.min>=a&&n.min<b; const done=(today&&n.min>=b)||n.date>FEST.date;
+    return `<li class="${done?'done':''}"><div class="time">${r.s}<small>~ ${r.e}</small></div><div style="min-width:0"><h3>${esc(r.title)}${live?'<span class="onair">ON AIR</span>':''}</h3>${r.sub?`<div class="sub">${esc(r.sub)}</div>`:''}${live?`<div class="prog"><i style="width:${Math.round((n.min-a)/(b-a)*100)}%"></i></div>`:''}</div></li>`; };
   return `<section class="head band g-mix gut">${recordHTML('img/lp_mix.png','spin')}
       <div class="tag">MAIN STAGE</div><h2>공연 시간표</h2><p>1층 중앙현관 · 11월 6일 12:00 ~ 15:20</p></section>
-    <div class="gut"><div style="height:16px"></div><ol class="tt">${SET.map(row).join('')}</ol>
+    <div class="gut"><div style="height:16px"></div><ol class="tt">${rows.map(row).join('')}</ol>
       <h2 class="h-sec">아티스트</h2>
       <div class="flyers">${FLYERS.length ? FLYERS.map((f,i)=>`<button data-flyer="${i}" style="flex:none;width:64%;max-width:260px;aspect-ratio:4/5;border-radius:6px;overflow:hidden"><img src="${img(f)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover"></button>`).join('') : `<div class="nosleeve">${trees()}아티스트 소개<br>곧 올라와요</div>`}</div></div>`; };
 
@@ -552,9 +580,24 @@ function focusMarker(id){
 function showPick(b){ const p=$('#pick'); if(!b){ p.classList.remove('show'); return; }
   p.innerHTML=`<div class="card c-${b.cat}">${badge(b)}<div class="tx" style="min-width:0"><b>${esc(b.name)}</b><span>${esc(sub(b))}</span></div><button class="go" data-open="${b.id}">부스 보기</button></div>`; p.classList.add('show'); }
 
+V.about = () => `
+  <section class="hero band g-mix gut" style="padding-bottom:40px">
+    <div style="display:flex;justify-content:center;padding:8px 0 24px"><svg class="trees" style="width:96px;height:66px;stroke-width:2.6"><use href="#trees"/></svg></div>
+    <h1 style="font-size:clamp(48px,15vw,80px);text-align:center">THE B<br>FOREST</h1>
+    <p class="copy" style="text-align:center">${ABOUT.lead.map(esc).join('<br>')}</p>
+  </section>
+  <div class="gut">
+    <h2 class="h-sec">이름의 뜻</h2>
+    <dl class="about">${ABOUT.words.map(w=>`<div><dt>${esc(w[0])}</dt><dd>${esc(w[1])}</dd></div>`).join('')}</dl>
+    <h2 class="h-sec">축제의 구성</h2>
+    <div class="setup">${ABOUT.setup.map(x=>`<div class="band ${x[4]}"><div class="tag">${esc(x[0])} · ${esc(x[3])}</div><b>${esc(x[1])}</b><p>${esc(x[2])}</p></div>`).join('')}</div>
+    <p class="foot">새 소식은 인스타그램 <a href="${FEST.insta}" target="_blank" rel="noopener">@the_b_forest</a></p>
+  </div>`;
+
 V.info = () => { const rsv=BOOTHS.filter(b=>b.reserve); return `
   <section class="head band g-mix gut" style="min-height:0"><div class="tag">THE B FOREST FESTIVAL</div><h2>안내</h2><p style="max-width:none">11월 6일 (금) · ${esc(FEST.place)}</p></section>
   <div class="gut">
+    <ul class="menu" style="margin-top:24px"><li><a href="#about"><span class="ico"><svg class="trees" style="width:26px;height:18px"><use href="#trees"/></svg></span><span><b>THE B FOREST 이야기</b><span>이름의 뜻과 축제의 구성</span></span>${chev}</a></li></ul>
     <h2 class="h-sec">사전 예약</h2>
     <ul class="rsv">${rsv.map(b=>`<li><button data-open="${b.id}">${badge(b)}<span class="tx" style="min-width:0"><b>${esc(b.name)}</b><span>${esc(b.reserve.text)}${b.price?' · '+esc(b.price):''}</span></span><span class="pill ${b.reserve.url?'fill':''}">${b.reserve.url?'예약하기':'링크 준비 중'}</span></button></li>`).join('')}</ul>
     <p class="small">유료 부스는 예약 후 30분 안에 입금하지 않으면 자동 취소돼요.</p>
@@ -687,10 +730,14 @@ app.addEventListener('click',e=>{ const mk=e.target.closest('.pan .mk'); if(!mk)
 $('#pick').addEventListener('click',e=>{ const t=e.target.closest('[data-open]'); if(t) go('#track-'+t.dataset.open.toLowerCase()); });
 addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!lb.hidden) closeLB(); else if(current) goBack(); } });
 
-/* intro (once per visit) */
+/* intro (once per visit): logo fades in and out, then the record fades in waiting for a tap */
 function runIntro(){
-  const intro=$('#intro'), rec=$('#introRec'); intro.hidden=false; let started=false;
-  const play=()=>{ if(started) return; started=true; ss.set('tbf-intro','1');
+  const intro=$('#intro'), rec=$('#introRec'); intro.hidden=false; let ready=false, started=false;
+  const t1=setTimeout(()=>intro.classList.add('s1'), 80);
+  const t2=setTimeout(()=>intro.classList.remove('s1'), reduce?300:1900);
+  const showLP=()=>{ clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); intro.classList.remove('s1'); intro.classList.add('s2'); ready=true; };
+  const t3=setTimeout(showLP, reduce?400:2700);
+  const play=()=>{ if(!ready){ showLP(); return; } if(started) return; started=true; ss.set('tbf-intro','1');
     Sound.init(); Sound.crackle(.9,.35); intro.classList.add('play');
     setTimeout(()=>{ Sound.thump(.8); Sound.crackle(3.4,.6); Sound.hum(3.2); rec.classList.add('spin'); }, reduce?0:950);
     setTimeout(()=>{ intro.classList.add('out'); setTimeout(()=>intro.hidden=true, 1700); }, reduce?300:2000);
