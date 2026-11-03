@@ -141,7 +141,8 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 .badge{width:40px;height:40px;border-radius:50%;background:var(--c);color:#fff;display:flex;align-items:center;justify-content:center;font:900 13px/1 var(--f-disp);letter-spacing:-.02em}
 .badge.gz{font:700 8px/1 var(--f-mono)}
 .trk .n{display:block;font:700 16px/1.35 var(--f-disp);letter-spacing:-.01em}
-.team{font:500 12px/1 var(--f-disp);font-style:normal;color:var(--ink-soft);margin-left:6px;letter-spacing:0;white-space:nowrap}
+.nmr{display:flex;align-items:baseline;gap:8px;min-width:0}.nmr .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.team{flex:none;font:600 13px/1 var(--f-disp);font-style:normal;color:var(--ink-soft);letter-spacing:-.01em}
 .trk .o{display:block;font:500 13px/1.4 var(--f-disp);color:var(--ink-soft);margin-top:2px}
 .pills{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .pill{font:700 11px/1 var(--f-disp);border:1.2px solid var(--ink);border-radius:999px;padding:5px 8px;white-space:nowrap}
@@ -198,7 +199,7 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 .head h2{margin:8px 0 0;font:900 36px/1.05 var(--f-disp);letter-spacing:-.04em}
 .head p{margin:8px 0 0;font:500 14px/1.5 var(--f-disp);max-width:calc(100% - 120px)}
 .tt{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--ink)}
-.tt > li{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:baseline;padding-block:10px;border-bottom:1px solid var(--rule)}
+.tt > li{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:baseline;padding-block:16px;border-bottom:1px solid var(--rule)}
 .tt .time{font:700 16px/1.2 var(--f-mono);font-variant-numeric:tabular-nums}
 .tt .time small{display:none;font:500 12px/1.4 var(--f-mono);color:var(--ink-soft);margin-top:4px}
 .tt .ln1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
@@ -240,7 +241,8 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 .pick.show{transform:none;visibility:visible;transition:transform .3s cubic-bezier(.2,.8,.2,1);pointer-events:auto}
 .pick .card{max-width:560px;margin:0 auto;background:var(--white);border:1.5px solid var(--ink);border-radius:16px;padding:12px;display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;box-shadow:0 12px 28px rgba(30,10,0,.18)}
 .pick .tx b{display:block;font:700 15px/1.3 var(--f-disp)}
-.pick .tx span{display:block;font:500 12.5px/1.35 var(--f-disp);color:var(--ink-soft)}
+.pick .tx > span{display:block;font:500 12.5px/1.35 var(--f-disp);color:var(--ink-soft)}
+.pick .tx .nmr{display:flex}.pick .tx .nm{font:inherit;color:inherit}
 .pick .go{background:var(--ink);color:var(--paper);border-radius:999px;padding:10px 14px;font:700 13px/1 var(--f-disp)}
 
 /* INFO */
@@ -370,12 +372,12 @@ const BOOTHS = [
   { id:'A2', deck:'A', cat:'FOOD', name:'숯과 딴스', op:'댄스부', menu:['숯불닭발','숯불닭꼬치','크랜베리에이드'], posters:['a2_cover','a2_poster'] },
   { id:'A3', deck:'A', cat:'FOOD', name:'뻥스크림대학', op:'2학년 6반', menu:['뻥스크림'], posters:['a3_cover'] },
   { id:'A4', deck:'A', cat:'FOOD', name:'영이네 호떡집', op:'3학년 4반', menu:['호떡 (기본 · 뿌링클 · 초코)'], posters:['a4_cover'] },
-  { id:'A5', deck:'A', cat:'PLAY', name:'운명의 장난', op:'남자풋살부', what:'인간룰렛', posters:[] },
+  { id:'A5', deck:'A', cat:'PLAY', name:'운명의 장난', op:'남자풋살부', what:'인간룰렛', free:true, posters:[] },
   { id:'A6', deck:'A', cat:'PLAY', name:'찰나의 조준', op:'THE B FOREST', what:'레이저 사격', free:true, posters:[] },
   { id:'A7', deck:'A', cat:'PLAY', name:'교무실에 총성을 울리면', op:'THE B FOREST', what:'너프건 맞추기', free:true, posters:[] },
   { id:'A8', deck:'A', cat:'PLAY', name:'7.77초 맞추기', op:'THE B FOREST', what:'타이머 게임', free:true, posters:[] },
-  { id:'A9', deck:'A', cat:'MAKE', name:'봉산필름관', op:'THE B FOREST', what:'인생네컷', price:'2,000원 · 같이 찍은 인원수만큼 출력', hours:'09:00 – 16:00', where:'1층 중앙현관 앞', notes:['프레임 2종: 기본 화이트 / 선생님과 함께 찍는 프레임','다시 오지 않을 오늘, 지금의 우리를 한 장에'], posters:['a9_cover','a9_poster'] },
-  { id:'B1', deck:'B', cat:'PLAY', name:'마약 예방 부스', op:'', what:'예방 캠페인', posters:[] },
+  { id:'A9', deck:'A', cat:'MAKE', name:'봉산필름관', op:'THE B FOREST', what:'인생네컷', price:'2,000원', hours:'09:00 – 16:00', where:'1층 중앙현관 앞', notes:['같이 찍은 인원수만큼 출력','프레임 2종: 기본 화이트 / 선생님과 함께 찍는 프레임','다시 오지 않을 오늘, 지금의 우리를 한 장에'], posters:['a9_cover','a9_poster'] },
+  { id:'B1', deck:'B', cat:'PLAY', name:'마약 예방 부스', op:'', what:'예방 캠페인', free:true, posters:[] },
   { id:'B2', deck:'B', cat:'FOOD', name:'슈의 분식집', op:'1학년 1반', menu:['떡볶이'], posters:['b2_cover'] },
   { id:'B3', deck:'B', cat:'FOOD', name:'암서준의 라면가게', op:'2학년 2반', menu:['컵라면'], posters:['b3_cover'] },
   { id:'B4', deck:'B', cat:'FOOD', name:'Made in 7반', op:'2학년 7반', menu:['콜팝'], posters:['b4_cover'] },
@@ -466,9 +468,9 @@ const Sound = {
 const recordHTML = (src,cls='',label='') => `<div class="rec ${cls}"><img src="${src}" alt="">${label}</div>`;
 function boothLabel(b){ const L=b.name.length; return `<div class="label l-${b.cat}"><div class="up">${trees()}<div class="lt">${b.id==='GZ'?'BONUS':'TRACK '+b.id}</div><div class="ln ${L>10?'xs':L>6?'s':''}">${esc(b.name)}</div></div><div class="lo">${esc(b.op)}</div><div class="hole"></div></div>`; }
 const badge = b => b.id==='GZ' ? `<span class="badge gz c-GREEN">GREEN</span>` : `<span class="badge c-${b.cat}">${esc(b.id)}</span>`;
-function pills(b){ const o=[]; if(b.reserve) o.push('<span class="pill fill">예약</span>'); if(b.free) o.push('<span class="pill">무료</span>'); return o.join(''); }
+function pills(b){ const o=[]; if(b.reserve) o.push('<span class="pill fill">예약</span>'); if(b.free) o.push('<span class="pill">무료</span>'); else if(b.price) o.push(`<span class="pill">${esc(b.price)}</span>`); return o.join(''); }
 const sub = b => b.what || (b.menu||[]).join(' · ');
-const nm = b => `${esc(b.name)}${b.op?`<em class="team">${esc(b.op)}</em>`:''}`;
+const nm = b => `<span class="nmr"><span class="nm">${esc(b.name)}</span>${b.op?`<em class="team">${esc(b.op)}</em>`:''}</span>`;
 function mixerSVG(){
   const k=(x,y,a)=>`<circle cx="${x}" cy="${y}" r="9" fill="#1d1d1d"/><line x1="${x}" y1="${y}" x2="${(x+7*Math.sin(a*Math.PI/180)).toFixed(1)}" y2="${(y-7*Math.cos(a*Math.PI/180)).toFixed(1)}" stroke="#f4f4f4" stroke-width="2" stroke-linecap="round"/>`;
   return `<svg viewBox="0 0 70 150" aria-hidden="true">${k(20,16,-40)}${k(50,16,0)}${k(20,40,15)}${k(50,40,-150)}${k(20,64,0)}${k(50,64,-90)}
