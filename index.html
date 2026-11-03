@@ -378,7 +378,7 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 <script>
 /* ============ DATA (여기만 고치면 앱 내용이 바뀌어요) ============ */
 const FEST = { date:'2026-11-06', dayLabel:'11.06 FRI', place:'봉산중학교 본관–후관 사이', insta:'https://www.instagram.com/the_b_forest/',
-  reserve:{ url:'https://bongsan-festival-reserve.kht920302.chatgpt.site', openDate:'2026-11-03', openTime:'17:00', closed:true } };
+  reserve:{ url:'https://bongsan-festival-reserve.kht920302.chatgpt.site', openDate:'2026-11-03', openTime:'17:00', closed:true, status:'https://bongsan-festival-reserve.kht920302.chatgpt.site/api/status' } };
 const DECKS = {
   A:{ name:'숲의 파장', en:'FOREST WAVE', genre:'DEEP HOUSE', rpm:'45 RPM', where:'주차장 (농구골대 방향)', lp:'img/lp_a.png', g:'g-a' },
   B:{ name:'오후의 잔향', en:'AFTERNOON REVERB', genre:'CITY POP', rpm:'33⅓ RPM', where:'급식실 앞 공터', lp:'img/lp_b.png', g:'g-b' }
@@ -400,13 +400,13 @@ const BOOTHS = [
   { id:'B3', deck:'B', cat:'FOOD', name:'암서준의 라면가게', op:'2학년 2반', menu:['컵라면'], posters:['b3_cover'] },
   { id:'B4', deck:'B', cat:'FOOD', name:'Made in 7반', op:'2학년 7반', menu:['콜팝'], posters:['b4_cover'] },
   { id:'B5', deck:'B', cat:'MAKE', name:'접기접기 먼작귀', op:'THE B FOREST', what:'치이카와 종이접기 (20분)', free:true, where:'1층 후관 앞 공터',
-    reserve:{ text:'예약 진행 중 · 현장 접수 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    reserve:{ key:'origami', unit:'팀', note:'현장 접수 가능', text:'예약 진행 중 · 현장 접수 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['예약 35팀 외에 현장 접수도 받습니다','캡슐을 뽑아 나온 캐릭터를 종이접기로 완성합니다','10분 안에 완성: 키링 또는 3D 스티커 + 츄파춥스 + 내가 만든 종이접기','20분 안에 완성: 츄파춥스 + 내가 만든 종이접기','캐릭터와 상품은 뽑기로 정해집니다'], posters:['b5_poster','b5_rules'] },
   { id:'B6', deck:'B', cat:'MAKE', name:'기념일은 아니지만 달콤하게', op:'누미르케이크', what:'도시락 케이크 만들기', price:'5,000원', where:'1층 후관 앞 공터',
-    reserve:{ closed:true, text:'사전 예약 마감 · 선착순 28팀 · 1팀 1~2명 · 예약만 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    reserve:{ key:'cake', unit:'팀', note:'1팀 1~2명 · 예약만 가능', closed:true, text:'사전 예약 마감 · 선착순 28팀 · 1팀 1~2명 · 예약만 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['현장 접수 없이 예약한 사람만 참여할 수 있습니다','예약 후 30분 안에 입금하지 않으면 자동 취소됩니다','원하는 디자인을 미리 찾아오면 더 예쁜 케이크를 만들 수 있습니다'], posters:['b6_cover','b6_poster','b6_gallery'] },
   { id:'B7', deck:'B', cat:'MAKE', name:'향수는 향기로 남는 이순간', op:'한아하다', what:'나만의 향수 만들기 · 동명동 향수공방', price:'예약 2,000원 · 현장 12,000원',
-    reserve:{ closed:true, text:'사전 예약 마감 · 선착순 30명 (1인 1개)', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    reserve:{ key:'perfume', unit:'명', note:'1인 1개', closed:true, text:'사전 예약 마감 · 선착순 30명 (1인 1개)', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['예약 30명은 2,000원, 그 외 현장 접수는 12,000원입니다','예약 후 30분 안에 입금하지 않으면 자동 취소됩니다','내 취향의 향을 직접 골라 만듭니다'], posters:['b7_poster','b7_photos'] },
   { id:'B8', deck:'B', cat:'PLAY', name:'PS5 & NINTENDO', op:'THE B FOREST', what:'FC26 · 마리오카트', free:true, posters:[] },
   { id:'B9', deck:'B', cat:'PLAY', name:'건축학개론', op:'THE B FOREST', what:'대왕젠가', free:true, posters:[] },
@@ -519,6 +519,28 @@ const ABOUT = {
     ['DECK B','오후의 잔향','천천히 오래 남는 오후의 소리. 만들기 체험과 쉼이 있는 급식실 앞 구역입니다.','33⅓ RPM','g-b']
   ]
 };
+/* 예약 현황: 예약사이트 /api/status 를 30초마다 읽어 남은 자리를 표시. 실패하면 data.js 값으로 표시 */
+let LIVE=null;
+function rsState(b){ const r=b.reserve, L=LIVE&&r.key&&LIVE[r.key];
+  if (L && typeof L.total==='number'){ const left=Math.max(0,L.total-(L.reserved||0)); return { live:true, open:!!L.open&&left>0, left, total:L.total }; }
+  return { live:false, open:!r.closed && !!r.url }; }
+function rsvText(b){ const r=b.reserve, st=rsState(b);
+  if (!st.live) return esc(r.text);
+  return (st.open?`<em style="font-style:normal;font-weight:800;color:var(--onair)">남은 자리 ${st.left}${r.unit||''}</em> / ${st.total}${r.unit||''}`:`예약 마감 · ${st.total}${r.unit||''}`)+(r.note?' · '+esc(r.note):''); }
+function rsvRow(b){ const st=rsState(b), r=b.reserve;
+  const inner=`${badge(b)}<span class="tx" style="min-width:0"><b>${esc(b.name)}</b><span>${rsvText(b)}${b.price?' · '+esc(b.price):''}</span></span><span class="pill ${st.open?'fill':''}">${st.open?'예약하기':(r.url?'예약 마감':'링크 준비 중')}</span>`;
+  return st.open?`<a class="rl" href="${esc(r.url)}" target="_blank" rel="noopener">${inner}</a>`:`<button data-open="${b.id}">${inner}</button>`; }
+function rsvBtn(b){ const st=rsState(b), r=b.reserve;
+  return st.open?`<a class="btn dark" href="${esc(r.url)}" target="_blank" rel="noopener">예약하기${st.live?` · 남은 자리 ${st.left}${r.unit||''}`:''}${chev}</a>`:`<span class="btn dark" aria-disabled="true">${r.url?'사전 예약 마감':'예약 링크 준비 중'}</span>`; }
+function paintRsv(){ BOOTHS.filter(b=>b.reserve).forEach(b=>{
+  document.querySelectorAll(`[data-rs="${b.id}"]`).forEach(el=>el.innerHTML=rsvRow(b));
+  document.querySelectorAll(`[data-rst="${b.id}"]`).forEach(el=>el.innerHTML=rsvText(b));
+  document.querySelectorAll(`[data-rsb="${b.id}"]`).forEach(el=>el.innerHTML=rsvBtn(b)); }); }
+async function pollRsv(){ const u=FEST.reserve&&FEST.reserve.status; if(!u||document.hidden) return;
+  try{ const ctl=new AbortController(); const t=setTimeout(()=>ctl.abort(),8000);
+    const r=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store',signal:ctl.signal}); clearTimeout(t);
+    if(!r.ok) return; const j=await r.json(); const k=JSON.stringify(j); if(k!==JSON.stringify(LIVE)){ LIVE=j; paintRsv(); } }catch(e){} }
+pollRsv(); setInterval(pollRsv,30000); document.addEventListener('visibilitychange',()=>{ if(!document.hidden) pollRsv(); });
 function rsvCard(){ const R=FEST.reserve; if(!R||!R.url||R.closed) return ''; const n=kstNow(); if(n.date>FEST.date) return '';
   const open = n.date>R.openDate || (n.date===R.openDate && n.min>=toMin(R.openTime));
   const st = open ? '<em>예약 진행 중</em> · 정원이 차면 마감됩니다' : `<em>${R.openDate===n.date?'오늘':'11월 3일 (화)'} ${R.openTime} 오픈</em> · 선착순`;
@@ -636,7 +658,7 @@ V.info = () => { const rsv=BOOTHS.filter(b=>b.reserve); return `
   <div class="gut">${rsvCard()}
     <ul class="menu" style="margin-top:24px"><li><a href="#about"><span class="ico"><svg class="trees" style="width:26px;height:18px"><use href="#trees"/></svg></span><span><b>THE B FOREST 이야기</b><span>이름의 뜻과 축제의 구성</span></span>${chev}</a></li></ul>
     <h2 class="h-sec">사전 예약</h2>
-    <ul class="rsv">${rsv.map(b=>`<li>${b.reserve.url&&!b.reserve.closed?`<a class="rl" href="${esc(b.reserve.url)}" target="_blank" rel="noopener">`:`<button data-open="${b.id}">`}${badge(b)}<span class="tx" style="min-width:0"><b>${esc(b.name)}</b><span>${esc(b.reserve.text)}${b.price?' · '+esc(b.price):''}</span></span><span class="pill ${b.reserve.url&&!b.reserve.closed?'fill':''}">${b.reserve.closed?'예약 마감':(b.reserve.url?'예약하기':'링크 준비 중')}</span>${b.reserve.url&&!b.reserve.closed?'</a>':'</button>'}</li>`).join('')}</ul>
+    <ul class="rsv">${rsv.map(b=>`<li data-rs="${b.id}">${rsvRow(b)}</li>`).join('')}</ul>
     ${FEST.reserve.closed?'':'<p class="small">유료 부스는 예약 후 30분 안에 입금하지 않으면 자동 취소됩니다.</p>'}
     <h2 class="h-sec">기본 정보</h2>
     <dl class="notes c-FOOD" style="margin-top:0">
@@ -662,7 +684,7 @@ function boothHTML(b){
   rows.push(['가격', b.free?'무료':(b.price?esc(b.price):'현장에서 확인해 주십시오')]);
   rows.push(['위치', `${esc(where(b))} · DECK ${b.deck}`]);
   rows.push(['시간', esc(b.hours||'12:00부터')]);
-  if (b.reserve) rows.push(['예약', esc(b.reserve.text)]);
+  if (b.reserve) rows.push(['예약', `<span data-rst="${b.id}">${rsvText(b)}</span>`]);
   if (b.notes) rows.push(['안내', `<ul>${b.notes.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`]);
   const P=b.posters||[];
   return `<div class="bar gut"><button data-close><svg class="ic"><use href="#i-back"/></svg>뒤로</button><div class="tn"><button data-step="-1">이전 부스</button><button data-step="1">다음 부스</button></div></div>
@@ -672,7 +694,7 @@ function boothHTML(b){
       <div><h2>${esc(b.name)}</h2><div class="op">${esc(b.op||'운영 정보 준비 중')}</div>${pills(b)?`<div class="chips">${pills(b)}</div>`:''}</div>
       <dl class="notes">${rows.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('')}</dl>
       <div class="acts">
-        ${b.reserve?(b.reserve.closed?`<span class="btn dark" aria-disabled="true">사전 예약 마감</span>`:b.reserve.url?`<a class="btn dark" href="${esc(b.reserve.url)}" target="_blank" rel="noopener">예약하기${chev}</a>`:`<span class="btn dark" aria-disabled="true">예약 링크 준비 중</span>`):''}
+        ${b.reserve?`<span data-rsb="${b.id}" style="display:contents">${rsvBtn(b)}</span>`:''}
         <a class="btn" href="#map-${b.id.toLowerCase()}">지도에서 위치 보기${chev}</a>
       </div>
       <div><h2 class="h-sec">포스터</h2>${P.length?`<div class="sleeves">${P.map((p,k)=>`<button data-lb="${k}"><img src="${img(p)}" alt="${esc(b.name)} 포스터 ${k+1}" loading="lazy"></button>`).join('')}</div>`:`<div class="nosleeve">${trees()}포스터<br>곧 공개됩니다</div>`}</div>
