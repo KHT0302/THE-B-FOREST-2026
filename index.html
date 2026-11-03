@@ -393,11 +393,11 @@ const BOOTHS = [
   { id:'B3', deck:'B', cat:'FOOD', name:'암서준의 라면가게', op:'2학년 2반', menu:['컵라면'], posters:['b3_cover'] },
   { id:'B4', deck:'B', cat:'FOOD', name:'Made in 7반', op:'2학년 7반', menu:['콜팝'], posters:['b4_cover'] },
   { id:'B5', deck:'B', cat:'MAKE', name:'접기접기 먼작귀', op:'THE B FOREST', what:'치이카와 종이접기 (20분)', free:true, where:'1층 후관 앞 공터',
-    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 35팀', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
-    notes:['현장 접수 없이 예약한 사람만 참여할 수 있어요','캡슐을 뽑아 나온 캐릭터를 종이접기로 완성해요','10분 안에 완성: 키링 또는 3D 스티커 + 츄파춥스 + 내가 만든 종이접기','20분 안에 완성: 츄파춥스 + 내가 만든 종이접기','캐릭터와 상품은 뽑기로 정해져요'], posters:['b5_poster','b5_rules'] },
+    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 35팀 · 현장 접수 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    notes:['예약 35팀 외에 현장 접수도 받아요','캡슐을 뽑아 나온 캐릭터를 종이접기로 완성해요','10분 안에 완성: 키링 또는 3D 스티커 + 츄파춥스 + 내가 만든 종이접기','20분 안에 완성: 츄파춥스 + 내가 만든 종이접기','캐릭터와 상품은 뽑기로 정해져요'], posters:['b5_poster','b5_rules'] },
   { id:'B6', deck:'B', cat:'MAKE', name:'기념일은 아니지만 달콤하게', op:'누미르케이크', what:'도시락 케이크 만들기', price:'5,000원', where:'1층 후관 앞 공터',
-    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 28팀 · 1팀 1~2명', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
-    notes:['예약 28팀 외에 현장 접수도 받아요','예약 후 30분 안에 입금하지 않으면 자동 취소돼요','원하는 디자인을 미리 찾아오면 더 예쁜 케이크를 만들 수 있어요'], posters:['b6_cover','b6_poster','b6_gallery'] },
+    reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 28팀 · 1팀 1~2명 · 예약만 가능', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
+    notes:['현장 접수 없이 예약한 사람만 참여할 수 있어요','예약 후 30분 안에 입금하지 않으면 자동 취소돼요','원하는 디자인을 미리 찾아오면 더 예쁜 케이크를 만들 수 있어요'], posters:['b6_cover','b6_poster','b6_gallery'] },
   { id:'B7', deck:'B', cat:'MAKE', name:'향수는 향기로 남는 이순간', op:'한아하다', what:'나만의 향수 만들기 · 동명동 향수공방', price:'예약 2,000원 · 현장 12,000원',
     reserve:{ text:'11.3(화) 17:00 오픈 · 선착순 30명 (1인 1개)', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['예약 30명은 2,000원, 그 외 현장 접수는 12,000원이에요','예약 후 30분 안에 입금하지 않으면 자동 취소돼요','내 취향의 향을 직접 골라 만들어요'], posters:['b7_poster','b7_photos'] },
@@ -516,7 +516,7 @@ function rsvCard(){ const R=FEST.reserve; if(!R||!R.url) return ''; const n=kstN
   const open = n.date>R.openDate || (n.date===R.openDate && n.min>=toMin(R.openTime));
   const st = open ? '<em>예약 진행 중</em> · 정원이 차면 마감됩니다' : `<em>${R.openDate===n.date?'오늘':'11월 3일 (화)'} ${R.openTime} 오픈</em> · 선착순`;
   const L=[['B6','케이크','5,000원'],['B7','향수','2,000원'],['B5','종이접기','무료']].map(([id,k,w])=>{ const b=BOOTHS.find(x=>x.id===id); const m=b&&b.reserve.text.match(/(\d+)(팀|명)/); return `<li><b>${k}</b>${m?m[1]+m[2]:''} · ${w}</li>`; }).join('');
-  return `<a class="rsvcard band g-b" href="${R.url}" target="_blank" rel="noopener"><div class="tag">${open?'<i></i>':''}PRE-SAVE · 선착순 예약</div><b class="t">케이크 · 향수 · 종이접기 예약</b><div class="st">${st}</div><ul>${L}</ul><div class="nt">향수는 1인 1개 · 예약 30명 2,000원<br>그 외 현장 접수는 12,000원입니다<br><span style="font-weight:500">케이크 · 향수는 현장 접수 가능 · 종이접기는 예약만 가능합니다</span></div><div class="go2">예약사이트 바로가기 ↗</div></a>`; }
+  return `<a class="rsvcard band g-b" href="${R.url}" target="_blank" rel="noopener"><div class="tag">${open?'<i></i>':''}PRE-SAVE · 선착순 예약</div><b class="t">케이크 · 향수 · 종이접기 예약</b><div class="st">${st}</div><ul>${L}</ul><div class="nt">향수는 1인 1개 · 예약 30명 2,000원<br>그 외 현장 접수는 12,000원입니다<br><span style="font-weight:500">케이크는 예약만 가능 · 향수 · 종이접기는 현장 접수 가능</span></div><div class="go2">예약사이트 바로가기 ↗</div></a>`; }
 V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').length; return `
   <section class="hero band g-mix gut">
     <h1>THE B<br>FOREST</h1>
