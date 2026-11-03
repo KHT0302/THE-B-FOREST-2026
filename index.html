@@ -516,7 +516,7 @@ function rsvCard(){ const R=FEST.reserve; if(!R||!R.url) return ''; const n=kstN
   const open = n.date>R.openDate || (n.date===R.openDate && n.min>=toMin(R.openTime));
   const st = open ? '<em>예약 진행 중</em> · 정원이 차면 마감됩니다' : `<em>${R.openDate===n.date?'오늘':'11월 3일 (화)'} ${R.openTime} 오픈</em> · 선착순`;
   const L=[['B6','케이크','5,000원'],['B7','향수','2,000원'],['B5','종이접기','무료']].map(([id,k,w])=>{ const b=BOOTHS.find(x=>x.id===id); const m=b&&b.reserve.text.match(/(\d+)(팀|명)/); return `<li><b>${k}</b>${m?m[1]+m[2]:''} · ${w}</li>`; }).join('');
-  return `<a class="rsvcard band g-b" href="${R.url}" target="_blank" rel="noopener"><div class="tag">${open?'<i></i>':''}PRE-SAVE · 선착순 예약</div><b class="t">케이크 · 향수 · 종이접기 예약</b><div class="st">${st}</div><ul>${L}</ul><div class="nt">향수는 1인 1개 · 예약 30명 2,000원, 그 외 현장 접수는 12,000원입니다</div><div class="go2">예약사이트 바로가기 ↗</div></a>`; }
+  return `<a class="rsvcard band g-b" href="${R.url}" target="_blank" rel="noopener"><div class="tag">${open?'<i></i>':''}PRE-SAVE · 선착순 예약</div><b class="t">케이크 · 향수 · 종이접기 예약</b><div class="st">${st}</div><ul>${L}</ul><div class="nt">향수는 1인 1개 · 예약 30명 2,000원<br>그 외 현장 접수는 12,000원입니다</div><div class="go2">예약사이트 바로가기 ↗</div></a>`; }
 V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').length; return `
   <section class="hero band g-mix gut">
     <h1>THE B<br>FOREST</h1>
