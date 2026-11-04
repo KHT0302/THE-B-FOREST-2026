@@ -109,7 +109,7 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 .hero .when b{font-weight:700}
 .story{display:flex;gap:14px;margin-top:20px;padding:14px;border-radius:16px;background:#0b0b0c url(img/story_poster.jpg) center 62%/cover;color:#f4f4f4;position:relative;isolation:isolate;overflow:hidden}
 .story::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,10,.8),rgba(8,8,10,.9));z-index:-1}
-.story .sp{flex:none;width:96px;aspect-ratio:9/16;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.35);padding:0;background:#000;box-shadow:0 6px 18px rgba(0,0,0,.5)}
+.story .sp{flex:none;width:84px;aspect-ratio:9/16;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.35);padding:0;background:#000;box-shadow:0 6px 18px rgba(0,0,0,.5)}
 .story .sp img{width:100%;height:100%;object-fit:cover;display:block}
 .story .sx{min-width:0;display:flex;flex-direction:column}
 .story .tag{display:flex;align-items:center;gap:8px;color:#d9d9d9}
@@ -434,7 +434,7 @@ const SET = [
   { vol:2, s:'12:30', e:'13:00', title:'멍때리기 대회', sub:'자유 참가 · 현장에 앉으면 참가 · 우승상품: 페리카나 치킨 1마리' },
   { vol:3, s:'13:00', e:'13:30', title:'MACGWI', sub:'체육 김현태 T · DJ SET' },
   { vol:4, s:'13:30', e:'14:40', title:'BUSKING', sub:'버스킹', acts:[['13:30','권정원','3학년 5반'],['13:40','김용준','3학년 6반'],['13:50','변다예','3학년 7반'],['14:00','오주호','3학년 4반'],['14:10','문시우','3학년 4반'],['14:20','T.O.D','봉산중 댄스부'],['14:30','임이랑 T','체육']] },
-  { vol:5, s:'14:40', e:'15:20', title:'B FOREST FM 11.06', sub:'떼창 라디오 · 사연 신청곡' }
+  { vol:5, s:'14:40', e:'15:20', title:'B FOREST FM 11.06', sub:'떼창 라디오 · 사연 신청곡', story:true }
 ];
 const FLYERS = []; // 예: ['artist_macgwi','artist_tod']
 // 층별 지도. svg 가 없으면 '준비 중'으로 보여요.
@@ -561,7 +561,7 @@ function rsvCard(){ const R=FEST.reserve; if(!R||!R.url||R.closed) return ''; co
   return `<a class="rsvcard band g-b" href="${R.url}" target="_blank" rel="noopener"><div class="tag">${open?'<i></i>':''}PRE-SAVE · 선착순 예약</div><b class="t">케이크 · 향수 · 종이접기 예약</b><div class="st">${st}</div><ul>${L}</ul><div class="nt">향수는 1인 1개 · 예약 30명 2,000원<br>그 외 현장 접수는 12,000원입니다<br><span style="font-weight:500">케이크는 예약만 가능 · 향수 · 종이접기는 현장 접수 가능</span></div><div class="go2">예약사이트 바로가기 ↗</div></a>`; }
 function storyCard(){ const S=FEST.story; if(!S||!S.url) return ''; if(kstNow().date>FEST.date) return '';
   return `<div class="story"><button class="sp" data-story aria-label="사연신청 포스터 크게 보기"><img src="${img(S.poster)}" alt="사연신청 포스터" loading="lazy"></button>
-    <div class="sx"><div class="tag"><i></i>ON AIR · 사연신청</div><b class="t">${esc(S.title)}</b><div class="st">THE B FOREST ${esc(S.on)}</div><p>${esc(S.prize)}</p>
+    <div class="sx"><div class="tag"><i></i>14:40 · 떼창 라디오</div><b class="t">${esc(S.title)}</b><div class="st">B FOREST FM 11.06 · 사연 신청곡</div><p>${esc(S.prize)}</p>
     <a class="go2" href="${esc(S.url)}" target="_blank" rel="noopener">사연 보내기 ↗</a></div></div>`; }
 V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').length; return `
   <section class="hero band g-mix gut">
@@ -575,9 +575,9 @@ V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').leng
     <ul class="menu">
       <li><a href="#about"><span class="ico"><svg class="trees" style="width:26px;height:18px"><use href="#trees"/></svg></span><span><b>THE B FOREST 이야기</b><span>이름의 뜻과 축제의 구성</span></span>${chev}</a></li>
       <li><a href="#booths"><span class="ico">${ic('booth')}</span><span><b>부스 찾기</b><span>먹거리 · 게임 · 만들기 ${cnt}곳</span></span>${chev}</a></li>
-      <li><a href="#show"><span class="ico">${ic('show')}</span><span><b>공연 시간표</b><span>메인 무대 · 1층 중앙현관</span></span>${chev}</a></li>
+      <li><a href="#show"><span class="ico">${ic('show')}</span><span><b>공연 시간표</b><span>메인 무대 · 떼창 라디오 사연신청</span></span>${chev}</a></li>
       <li><a href="#map"><span class="ico">${ic('map')}</span><span><b>지도 보기</b><span>부스 위치와 번호</span></span>${chev}</a></li>
-      <li><a href="#info"><span class="ico">${ic('ticket')}</span><span><b>사연신청 · 예약 · 안내</b><span>사연 보내기 · 사전 예약 부스 · 분리수거</span></span>${chev}</a></li>
+      <li><a href="#info"><span class="ico">${ic('ticket')}</span><span><b>예약 · 안내</b><span>사전 예약 부스 · 분리수거</span></span>${chev}</a></li>
     </ul>
     <h2 class="h-sec">구역별로 보기</h2>
     <div class="console band g-mix">
@@ -607,7 +607,7 @@ V.show = () => { const st=stageState(); const n=kstNow();
   const rows=[]; SET.forEach(s=>{ if(s.acts) s.acts.forEach((x,i)=>rows.push({ s:x[0], e:(s.acts[i+1]||[s.e])[0], title:x[1], sub:(x[2]?x[2]+' · ':'')+'버스킹' })); else rows.push(s); });
   const today = n.date===FEST.date;
   const row = r => { const a=toMin(r.s), b=toMin(r.e); const live=today&&n.min>=a&&n.min<b; const done=(today&&n.min>=b)||n.date>FEST.date;
-    return `<li class="${done?'done':''}"><div class="time">${r.s}<small>~ ${r.e}</small></div><div style="min-width:0"><div class="ln1"><h3>${esc(r.title)}</h3>${r.sub?`<span class="sub">${esc(r.sub)}</span>`:''}${live?'<span class="onair">ON AIR</span>':''}</div>${live?`<div class="prog"><i style="width:${Math.round((n.min-a)/(b-a)*100)}%"></i></div>`:''}</div></li>`; };
+    return `<li class="${done?'done':''}"><div class="time">${r.s}<small>~ ${r.e}</small></div><div style="min-width:0"><div class="ln1"><h3>${esc(r.title)}</h3>${r.sub?`<span class="sub">${esc(r.sub)}</span>`:''}${live?'<span class="onair">ON AIR</span>':''}</div>${live?`<div class="prog"><i style="width:${Math.round((n.min-a)/(b-a)*100)}%"></i></div>`:''}${r.story?storyCard():''}</div></li>`; };
   return `<section class="head band g-mix gut">${recordHTML('img/lp_mix.png','spin')}
       <div class="tag">MAIN STAGE</div><h2>공연 시간표</h2><p>1층 중앙현관 · 11월 6일 12:00 ~ 15:20</p></section>
     <div class="gut"><div style="height:16px"></div><ol class="tt">${rows.map(row).join('')}</ol>
@@ -672,7 +672,7 @@ V.about = () => `
 
 V.info = () => { const rsv=BOOTHS.filter(b=>b.reserve); return `
   <section class="head band g-mix gut" style="min-height:0"><div class="tag">THE B FOREST FESTIVAL</div><h2>안내</h2><p style="max-width:none">11월 6일 (금) · ${esc(FEST.place)}</p></section>
-  <div class="gut">${storyCard()}${rsvCard()}
+  <div class="gut">${rsvCard()}
     <ul class="menu" style="margin-top:24px"><li><a href="#about"><span class="ico"><svg class="trees" style="width:26px;height:18px"><use href="#trees"/></svg></span><span><b>THE B FOREST 이야기</b><span>이름의 뜻과 축제의 구성</span></span>${chev}</a></li></ul>
     <h2 class="h-sec">사전 예약</h2>
     <ul class="rsv">${rsv.map(b=>`<li data-rs="${b.id}">${rsvRow(b)}</li>`).join('')}</ul>
