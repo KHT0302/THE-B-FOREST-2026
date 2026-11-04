@@ -107,6 +107,17 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 .hero .copy{margin:24px 0 0;font:700 20px/1.45 var(--f-disp);letter-spacing:-.02em}
 .hero .when{margin-top:16px;font:500 14px/1.5 var(--f-disp)}
 .hero .when b{font-weight:700}
+.story{display:flex;gap:14px;margin-top:20px;padding:14px;border-radius:16px;background:#0b0b0c url(img/story_poster.jpg) center 62%/cover;color:#f4f4f4;position:relative;isolation:isolate;overflow:hidden}
+.story::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,10,.8),rgba(8,8,10,.9));z-index:-1}
+.story .sp{flex:none;width:96px;aspect-ratio:9/16;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.35);padding:0;background:#000;box-shadow:0 6px 18px rgba(0,0,0,.5)}
+.story .sp img{width:100%;height:100%;object-fit:cover;display:block}
+.story .sx{min-width:0;display:flex;flex-direction:column}
+.story .tag{display:flex;align-items:center;gap:8px;color:#d9d9d9}
+.story .tag i{width:8px;height:8px;border-radius:50%;background:var(--onair);animation:blink 1.2s steps(2) infinite}
+.story b.t{display:block;margin-top:8px;font:900 19px/1.3 var(--f-disp);letter-spacing:-.03em;word-break:keep-all}
+.story .st{margin-top:4px;font:700 13px/1.3 var(--f-disp);letter-spacing:.06em;color:#bdbdbd}
+.story p{margin:8px 0 0;font:500 13px/1.4 var(--f-disp);color:#e6e6e6;word-break:keep-all}
+.story .go2{display:flex;justify-content:center;align-items:center;margin-top:12px;background:#f4f4f4;color:#111;border-radius:999px;padding:11px;font:700 15px/1 var(--f-disp)}
 .rsvcard{display:block;margin-top:20px;border:1.5px solid var(--ink);border-radius:16px;padding:16px 16px 14px;color:var(--ink)}
 .rsvcard .tag{display:flex;align-items:center;gap:8px}
 .rsvcard .tag i{width:8px;height:8px;border-radius:50%;background:var(--onair);animation:blink 1.2s steps(2) infinite}
@@ -378,7 +389,9 @@ main{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
 <script>
 /* ============ DATA (여기만 고치면 앱 내용이 바뀌어요) ============ */
 const FEST = { date:'2026-11-06', dayLabel:'11.06 FRI', place:'봉산중학교 본관–후관 사이', insta:'https://www.instagram.com/the_b_forest/',
-  reserve:{ url:'https://bongsan-festival-reserve.kht920302.chatgpt.site', openDate:'2026-11-03', openTime:'17:00', closed:true, status:'https://bongsan-festival-reserve.kht920302.chatgpt.site/api/status' } };
+  reserve:{ url:'https://bongsan-festival-reserve.kht920302.chatgpt.site', openDate:'2026-11-03', openTime:'17:00', closed:true, status:'https://bongsan-festival-reserve.kht920302.chatgpt.site/api/status' },
+  // 사연신청: url 을 바꾸면 '사연 보내기' 버튼 주소가 바뀌어요. 축제가 끝나면 카드가 사라져요.
+  story:{ url:'https://bongsan-festival-reserve.kht920302.chatgpt.site', poster:'story_poster', on:'11.06 FM', title:'여러분들의 이야기를 들려주세요.', prize:'선정된 사연은 소정의 상품을 드립니다.' } };
 const DECKS = {
   A:{ name:'숲의 파장', en:'FOREST WAVE', genre:'DEEP HOUSE', rpm:'45 RPM', where:'주차장 (농구골대 방향)', lp:'img/lp_a.png', g:'g-a' },
   B:{ name:'오후의 잔향', en:'AFTERNOON REVERB', genre:'CITY POP', rpm:'33⅓ RPM', where:'급식실 앞 공터', lp:'img/lp_b.png', g:'g-b' }
@@ -546,13 +559,17 @@ function rsvCard(){ const R=FEST.reserve; if(!R||!R.url||R.closed) return ''; co
   const st = open ? '<em>예약 진행 중</em> · 정원이 차면 마감됩니다' : `<em>${R.openDate===n.date?'오늘':'11월 3일 (화)'} ${R.openTime} 오픈</em> · 선착순`;
   const L=[['B6','케이크','5,000원'],['B7','향수','2,000원'],['B5','종이접기','무료']].map(([id,k,w])=>{ const b=BOOTHS.find(x=>x.id===id); const m=b&&b.reserve.text.match(/(\d+)(팀|명)/); return `<li><b>${k}</b>${m?m[1]+m[2]:''} · ${w}</li>`; }).join('');
   return `<a class="rsvcard band g-b" href="${R.url}" target="_blank" rel="noopener"><div class="tag">${open?'<i></i>':''}PRE-SAVE · 선착순 예약</div><b class="t">케이크 · 향수 · 종이접기 예약</b><div class="st">${st}</div><ul>${L}</ul><div class="nt">향수는 1인 1개 · 예약 30명 2,000원<br>그 외 현장 접수는 12,000원입니다<br><span style="font-weight:500">케이크는 예약만 가능 · 향수 · 종이접기는 현장 접수 가능</span></div><div class="go2">예약사이트 바로가기 ↗</div></a>`; }
+function storyCard(){ const S=FEST.story; if(!S||!S.url) return ''; if(kstNow().date>FEST.date) return '';
+  return `<div class="story"><button class="sp" data-story aria-label="사연신청 포스터 크게 보기"><img src="${img(S.poster)}" alt="사연신청 포스터" loading="lazy"></button>
+    <div class="sx"><div class="tag"><i></i>ON AIR · 사연신청</div><b class="t">${esc(S.title)}</b><div class="st">THE B FOREST ${esc(S.on)}</div><p>${esc(S.prize)}</p>
+    <a class="go2" href="${esc(S.url)}" target="_blank" rel="noopener">사연 보내기 ↗</a></div></div>`; }
 V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').length; return `
   <section class="hero band g-mix gut">
     <h1>THE B<br>FOREST</h1>
     <p class="copy">${HERO_COPY.map(esc).join('<br>')}</p>
     <div class="when"><b>11월 6일 (금) 12:00</b><br>${esc(FEST.place)}</div>
   </section>
-  <div class="gut">${rsvCard()}
+  <div class="gut">${storyCard()}${rsvCard()}
     <a class="now" href="#show">${recordHTML('img/lp_mix.png','spin')}<div><div class="k">${n.live?'<i></i>':''}${esc(n.k)}</div><div class="t">${esc(n.t)}</div>${n.live?`<div class="bar"><i style="width:${Math.round(n.pct*100)}%"></i></div>`:''}</div>${chev}</a>
     <h2 class="h-sec">둘러보기</h2>
     <ul class="menu">
@@ -560,7 +577,7 @@ V.home = () => { const n=nowLine(); const cnt=BOOTHS.filter(b=>b.id!=='GZ').leng
       <li><a href="#booths"><span class="ico">${ic('booth')}</span><span><b>부스 찾기</b><span>먹거리 · 게임 · 만들기 ${cnt}곳</span></span>${chev}</a></li>
       <li><a href="#show"><span class="ico">${ic('show')}</span><span><b>공연 시간표</b><span>메인 무대 · 1층 중앙현관</span></span>${chev}</a></li>
       <li><a href="#map"><span class="ico">${ic('map')}</span><span><b>지도 보기</b><span>부스 위치와 번호</span></span>${chev}</a></li>
-      <li><a href="#info"><span class="ico">${ic('ticket')}</span><span><b>예약 · 안내</b><span>사전 예약 부스 · 분리수거</span></span>${chev}</a></li>
+      <li><a href="#info"><span class="ico">${ic('ticket')}</span><span><b>사연신청 · 예약 · 안내</b><span>사연 보내기 · 사전 예약 부스 · 분리수거</span></span>${chev}</a></li>
     </ul>
     <h2 class="h-sec">구역별로 보기</h2>
     <div class="console band g-mix">
@@ -655,7 +672,7 @@ V.about = () => `
 
 V.info = () => { const rsv=BOOTHS.filter(b=>b.reserve); return `
   <section class="head band g-mix gut" style="min-height:0"><div class="tag">THE B FOREST FESTIVAL</div><h2>안내</h2><p style="max-width:none">11월 6일 (금) · ${esc(FEST.place)}</p></section>
-  <div class="gut">${rsvCard()}
+  <div class="gut">${storyCard()}${rsvCard()}
     <ul class="menu" style="margin-top:24px"><li><a href="#about"><span class="ico"><svg class="trees" style="width:26px;height:18px"><use href="#trees"/></svg></span><span><b>THE B FOREST 이야기</b><span>이름의 뜻과 축제의 구성</span></span>${chev}</a></li></ul>
     <h2 class="h-sec">사전 예약</h2>
     <ul class="rsv">${rsv.map(b=>`<li data-rs="${b.id}">${rsvRow(b)}</li>`).join('')}</ul>
@@ -785,6 +802,7 @@ app.addEventListener('click',e=>{
   if (t.dataset.zoom){ setZoom(zoom + +t.dataset.zoom); return; }
   if (t.dataset.focus){ floor='1F'; paintFloor(); setTimeout(()=>focusMarker(t.dataset.focus),60); return; }
   if (t.dataset.flyer!==undefined){ openLB(FLYERS.map(img), +t.dataset.flyer); }
+  if (t.dataset.story!==undefined){ openLB([img(FEST.story.poster)], 0); }
 });
 app.addEventListener('click',e=>{ const mk=e.target.closest('.pan .mk'); if(!mk) return;
   $('#pan').querySelectorAll('.mk').forEach(x=>x.classList.toggle('focus',x===mk)); showPick(byId(mk.dataset.id)); });
