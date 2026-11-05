@@ -399,14 +399,14 @@ const DECKS = {
 const CATS = { FOOD:'먹거리', PLAY:'게임 체험', MAKE:'만들기 체험', GREEN:'분리수거' };
 // reserve.url 이 생기면 '예약하기' 버튼이 켜져요. posters 는 img 폴더 파일 이름이에요.
 const BOOTHS = [
-  { id:'A1', deck:'A', cat:'FOOD', name:'GOAL때리는 원조대패집', op:'여자풋살부', menu:['대패삼겹살','대패삼겹살 덮밥','크랜베리에이드'], posters:['a1_cover','a1_poster'] },
-  { id:'A2', deck:'A', cat:'FOOD', name:'숯과 딴스', op:'댄스부', menu:['숯불닭발','숯불닭꼬치','크랜베리에이드'], posters:['a2_cover','a2_poster'] },
+  { id:'A1', deck:'A', cat:'FOOD', name:'GOAL때리는 원조대패집', op:'여자풋살부', price:'1,500 ~ 4,500원', menu:['대패삼겹살 · 3,500원','대패삼겹살 덮밥 · 4,500원','크랜베리 에이드 · 1,500원','데미소다 애플 · 1,500원'], notes:['모든 메뉴, 세트로 바꾸면 음료수 +1,000원','댄스부(숯과 딴스)와 숨막히는 매출전쟁 중'], posters:['a1_cover','a1_poster','a12_menu'] },
+  { id:'A2', deck:'A', cat:'FOOD', name:'숯과 딴스', op:'댄스부', price:'1,500 ~ 4,000원', menu:['숯불닭발 · 4,000원','숯불닭꼬치 · 1,500원','숯불닭꼬치 3개 · 4,000원','크랜베리 에이드 · 1,500원','데미소다 애플 · 1,500원'], notes:['모든 메뉴, 세트로 바꾸면 음료수 +1,000원','여자풋살부(GOAL때리는 원조대패집)와 숨막히는 매출전쟁 중'], posters:['a2_cover','a2_poster','a12_menu'] },
   { id:'A3', deck:'A', cat:'FOOD', name:'뻥스크림대학', op:'2학년 6반', menu:['뻥스크림'], posters:['a3_cover'] },
   { id:'A4', deck:'A', cat:'FOOD', name:'영이네 호떡집', op:'3학년 4반', menu:['호떡 (기본 · 뿌링클 · 초코)'], posters:['a4_cover'] },
-  { id:'A5', deck:'A', cat:'PLAY', name:'운명의 장난', op:'남자풋살부', what:'인간룰렛', free:true, posters:[] },
-  { id:'A6', deck:'A', cat:'PLAY', name:'찰나의 조준', op:'THE B FOREST', what:'레이저 사격', free:true, posters:[] },
-  { id:'A7', deck:'A', cat:'PLAY', name:'교무실에 총성을 울리면', op:'THE B FOREST', what:'너프건 맞추기', free:true, posters:[] },
-  { id:'A8', deck:'A', cat:'PLAY', name:'7.77초 맞추기', op:'THE B FOREST', what:'타이머 게임', free:true, posters:[] },
+  { id:'A5', deck:'A', cat:'PLAY', name:'운명의 장난', op:'남자풋살부', what:'인간룰렛', free:true, posters:['a5_cover'] },
+  { id:'A6', deck:'A', cat:'PLAY', name:'찰나의 조준', op:'THE B FOREST', what:'레이저 사격', free:true, posters:['a6_cover'] },
+  { id:'A7', deck:'A', cat:'PLAY', name:'교무실에 총성을 울리면', op:'THE B FOREST', what:'너프건 맞추기', free:true, posters:['a7_cover'] },
+  { id:'A8', deck:'A', cat:'PLAY', name:'7.77초 맞추기', op:'THE B FOREST', what:'타이머 게임', free:true, notes:['7.77초를 맞춰라','성공 시 닭발 또는 대패삼겹살'], posters:['a8_cover'] },
   { id:'A9', deck:'A', cat:'MAKE', name:'봉산필름관', op:'THE B FOREST', what:'인생네컷', price:'2,000원', hours:'09:00 – 16:00', where:'1층 중앙현관 앞', notes:['같이 찍은 인원수만큼 출력','프레임 2종: 기본 화이트 / 선생님과 함께 찍는 프레임','다시 오지 않을 오늘, 지금의 우리를 한 장에'], posters:['a9_cover','a9_poster'] },
   { id:'B1', deck:'B', cat:'PLAY', name:'마약 예방 부스', op:'보건실', what:'예방 캠페인', free:true, posters:[] },
   { id:'B2', deck:'B', cat:'FOOD', name:'슈의 분식집', op:'1학년 1반', menu:['떡볶이'], posters:['b2_cover'] },
@@ -421,8 +421,8 @@ const BOOTHS = [
   { id:'B7', deck:'B', cat:'MAKE', name:'향수는 향기로 남는 이순간', op:'한아하다', what:'나만의 향수 만들기 · 동명동 향수공방', price:'예약 2,000원 · 현장 12,000원',
     reserve:{ key:'perfume', unit:'명', note:'1인 1개', closed:true, text:'사전 예약 마감 · 선착순 30명 (1인 1개)', url:'https://bongsan-festival-reserve.kht920302.chatgpt.site' },
     notes:['예약 30명은 2,000원, 그 외 현장 접수는 12,000원입니다','예약 후 30분 안에 입금하지 않으면 자동 취소됩니다','내 취향의 향을 직접 골라 만듭니다'], posters:['b7_poster','b7_photos'] },
-  { id:'B8', deck:'B', cat:'PLAY', name:'PS5 & NINTENDO', op:'THE B FOREST', what:'FC26 · 마리오카트', free:true, posters:[] },
-  { id:'B9', deck:'B', cat:'PLAY', name:'건축학개론', op:'THE B FOREST', what:'대왕젠가', free:true, posters:[] },
+  { id:'B8', deck:'B', cat:'PLAY', name:'PS5 & NINTENDO', op:'THE B FOREST', what:'FC26 · 마리오카트', free:true, posters:['b8_cover'] },
+  { id:'B9', deck:'B', cat:'PLAY', name:'건축학개론', op:'THE B FOREST', what:'대왕젠가', free:true, notes:['쌓는 순간, 모든 것이 시작된다'], posters:['b9_cover'] },
   { id:'B10', deck:'B', cat:'MAKE', name:'우리사이에 편지가 있다', op:'THE B FOREST', what:'엽서 쓰기', free:true,
     notes:['친구, 선배, 후배, 선생님께 이름을 적어 마음을 전합니다','축제가 끝난 후 직접 배달해 드립니다','익명이나 장난, 비방의 글은 현장에서 조치됩니다'], posters:['b10_cover'] },
   { id:'GZ', deck:'B', cat:'GREEN', name:'GREEN ZONE', op:'분리수거 구역', what:'분리수거', free:true,
@@ -433,10 +433,10 @@ const SET = [
   { vol:1, s:'12:00', e:'12:30', title:'MACGWI', sub:'체육 김현태 T · DJ SET' },
   { vol:2, s:'12:30', e:'13:00', title:'멍때리기 대회', sub:'자유 참가 · 현장에 앉으면 참가 · 우승상품: 페리카나 치킨 1마리' },
   { vol:3, s:'13:00', e:'13:30', title:'MACGWI', sub:'체육 김현태 T · DJ SET' },
-  { vol:4, s:'13:30', e:'14:40', title:'BUSKING', sub:'버스킹', acts:[['13:30','권정원','3학년 5반'],['13:40','김용준','3학년 6반'],['13:50','변다예','3학년 7반'],['14:00','오주호','3학년 4반'],['14:10','문시우','3학년 4반'],['14:20','T.O.D','봉산중 댄스부'],['14:30','임이랑 T','체육']] },
+  { vol:4, s:'13:30', e:'14:40', title:'BUSKING', sub:'버스킹', acts:[['13:30','권정원','3학년 5반','청혼'],['13:40','김용준','3학년 6반','가을 타나 봐'],['13:50','변다예','3학년 7반','밤편지'],['14:00','오주호','3학년 4반','사랑했잖아'],['14:10','문시우','3학년 4반','가을밤 떠난 너 · 그댄 달라요'],['14:20','T.O.D','봉산중 댄스부'],['14:30','임이랑 T','체육']] },
   { vol:5, s:'14:40', e:'15:20', title:'B FOREST FM 11.06', sub:'떼창 라디오 · 사연 신청곡', story:true }
 ];
-const FLYERS = []; // 예: ['artist_macgwi','artist_tod']
+const FLYERS = ['artist_macgwi','artist_kwonjw','artist_kimyj','artist_byundy','artist_ohjh','artist_moonsw']; // 예: ['artist_macgwi','artist_tod']
 // 층별 지도. svg 가 없으면 '준비 중'으로 보여요.
 const FLOORS = [ { id:'1F', label:'1F', sub:'야외', svg:'map1f' }, { id:'2F', label:'2F' }, { id:'3F', label:'3F' }, { id:'4F', label:'4F' }, { id:'5F', label:'5F' } ];
 
@@ -604,7 +604,7 @@ function applyFilter(){
 }
 
 V.show = () => { const st=stageState(); const n=kstNow();
-  const rows=[]; SET.forEach(s=>{ if(s.acts) s.acts.forEach((x,i)=>rows.push({ s:x[0], e:(s.acts[i+1]||[s.e])[0], title:x[1], sub:(x[2]?x[2]+' · ':'')+'버스킹' })); else rows.push(s); });
+  const rows=[]; SET.forEach(s=>{ if(s.acts) s.acts.forEach((x,i)=>rows.push({ s:x[0], e:(s.acts[i+1]||[s.e])[0], title:x[1], sub:(x[2]?x[2]+' · ':'')+(x[3]?'♪ '+x[3]:'버스킹') })); else rows.push(s); });
   const today = n.date===FEST.date;
   const row = r => { const a=toMin(r.s), b=toMin(r.e); const live=today&&n.min>=a&&n.min<b; const done=(today&&n.min>=b)||n.date>FEST.date;
     return `<li class="${done?'done':''}"><div class="time">${r.s}<small>~ ${r.e}</small></div><div style="min-width:0"><div class="ln1"><h3>${esc(r.title)}</h3>${r.sub?`<span class="sub">${esc(r.sub)}</span>`:''}${live?'<span class="onair">ON AIR</span>':''}</div>${live?`<div class="prog"><i style="width:${Math.round((n.min-a)/(b-a)*100)}%"></i></div>`:''}${r.story?storyCard():''}</div></li>`; };
